@@ -6,11 +6,13 @@ git clone https://github.com/ashtanko/octo-server
 
 cd octo-server
 
-# Start the REST API server and PostgreSQL database server in a Docker container
-make up 
+make build
+ 
+make up
 
-# Start migrations container
-make migrate_up
+make migrate-up
+
+make run
 ```
 
 At this time the server running at `http://127.0.0.1:8000`. It provides the following endpoints:

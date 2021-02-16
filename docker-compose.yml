@@ -2,8 +2,9 @@ version: '3.7'
 
 services:
   app:
-    build: .
-    command: ./octoserver
+    build:
+      context: .
+      target: production
     env_file: .env
     ports:
       - 8000:8000
@@ -24,24 +25,6 @@ services:
       - DATABASE_HOST=${DB_HOST}
     volumes:
       - database_postgres:/var/lib/postgresql/data
-
-  migrate_up:
-    image: migrate/migrate
-    container_name: db_migrations_up
-    entrypoint: migrate -path ./migrations -verbose -database postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?sslmode=disable up
-    volumes:
-      - ./migrations:/migrations
-    depends_on:
-      - db
-
-  migrate_down:
-    image: migrate/migrate
-    container_name: db_migrations_down
-    entrypoint: migrate -path ./migrations -verbose -database postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}?sslmode=disable drop -f
-    volumes:
-      - ./migrations:/migrations
-    depends_on:
-      - db
 
 volumes:
   database_postgres:
